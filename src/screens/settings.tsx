@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
-import {Text, View, SegmentedControl, Colors} from 'react-native-ui-lib';
+import {Text, View, SegmentedControl, Colors, Card, Button, Incubator} from 'react-native-ui-lib';
 import {observer} from 'mobx-react';
 import {useNavigation} from '@react-navigation/native';
 import {NavioScreen} from 'rn-navio';
@@ -19,6 +19,9 @@ import {useAppearance} from '@app/utils/hooks';
 import {useStores} from '@app/stores';
 import {HeaderButton} from '@app/components/button';
 import {services, useServices} from '@app/services';
+import {CircularProgressCard} from '@app/components/CircularProgressCard';
+
+const {Toast} = Incubator;
 
 export const Settings: NavioScreen = observer(({}) => {
   useAppearance();
@@ -29,6 +32,7 @@ export const Settings: NavioScreen = observer(({}) => {
   // State
   const [appearance, setAppearance] = useState(ui.appearance);
   const [language, setLanguage] = useState(ui.language);
+  const [toastVisible, setToastVisible] = useState(false);
 
   // Computed
   const unsavedChanges = ui.appearance !== appearance || ui.language !== language;
@@ -101,11 +105,16 @@ export const Settings: NavioScreen = observer(({}) => {
               />
             </Row>
           </View>
+          <View paddingV-s1>
+            <CircularProgressCard initialFill={0} />
+            <CircularProgressCard initialFill={0} />
+          </View>
         </Section>
       </ScrollView>
     </View>
   );
 });
+
 Settings.options = () => ({
   title: services.t.do('settings.title'),
 });
