@@ -18,7 +18,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ambient-music"
+      "bundleIdentifier": "com.ambient-music",
+      "infoPlist": {
+        "UIBackgroundModes": ["audio"]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -30,6 +33,15 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-localization"]
+    "plugins": [
+      "expo-localization",
+      [
+        "expo-av",
+        {
+          "playThroughEarpieceAndroid": true,
+          "microphonePermissions": "Allow $(PRODUCT_NAME) to access your microphone."
+        }
+      ]
+    ]
   }
 }

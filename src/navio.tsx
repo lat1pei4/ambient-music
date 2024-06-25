@@ -6,6 +6,8 @@ import {PlaygroundFlashList} from '@app/screens/playground/flash-list';
 import {PlaygroundExpoImage} from '@app/screens/playground/expo-image';
 import {Settings} from '@app/screens/settings';
 import {Example} from '@app/screens/_screen-sample';
+import {ManageSoundsScreen} from './screens/ManageSoundsScreen';
+import {AnimeBackgroundScreen} from './screens/AnimeBackgroundScreen';
 
 import {useAppearance} from '@app/utils/hooks';
 import {
@@ -27,6 +29,9 @@ export const navio = Navio.build({
     Playground,
     PlaygroundFlashList,
     PlaygroundExpoImage,
+
+    ManageSoundsScreen,
+    AnimeBackgroundScreen,
 
     // for .pushStack example
     ProductPage: {
@@ -51,6 +56,12 @@ export const navio = Navio.build({
     },
     PlaygroundStack: {
       screens: ['Playground', 'PlaygroundFlashList', 'PlaygroundExpoImage'],
+    },
+    SoundStack: {
+      screens: ['ManageSoundsScreen'],
+    },
+    AnimeBackgroundStack: {
+      screens: ['AnimeBackgroundScreen'],
     },
 
     // for .pushStack example
@@ -130,6 +141,15 @@ export const navio = Navio.build({
         Playground: {
           stack: 'PlaygroundStack',
         },
+        Settings: {
+          stack: ['Settings'],
+        },
+        Sounds: {
+          stack: ['ManageSoundsScreen'],
+        },
+        AnimeBackground: {
+          stack: ['AnimeBackgroundScreen'],
+        },
         // Tabs: {
         //   tabs: 'TabsWithDrawer',
         // },
@@ -157,9 +177,9 @@ export const navio = Navio.build({
     },
   },
   modals: {
-    ExampleModal: {stack: 'PlaygroundStack'},
+    ExampleModal: {stack: 'SoundStack'},
   },
-  root: 'tabs.AppTabs',
+  root: 'drawers.AppDrawer',
   hooks: [useAppearance],
   defaultOptions: {
     stacks: {
