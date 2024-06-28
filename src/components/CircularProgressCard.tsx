@@ -127,7 +127,7 @@ export const CircularProgressCard: React.FC<Props> = ({
               uri:
                 isPlaying && fill > 0
                   ? 'https://cdn-icons-png.flaticon.com/512/7960/7960808.png' // pause icon
-                  : require('../../assets/wind.png'), // play icon
+                  : iconUrl, // play icon
             }}
             size={50}
           />

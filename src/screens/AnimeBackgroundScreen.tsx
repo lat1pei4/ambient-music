@@ -35,7 +35,8 @@ export const AnimeBackgroundScreen: NavioScreen = observer(() => {
 
   // UI Methods
 
-  const video = require('../../assets/video.mp4');
+  // const video = require('../../assets/video.mp4');
+  const video = {uri: 'https://d19lw2j693qzyn.cloudfront.net/autumn_noon.mp4'};
 
   return (
     <View flex bg-bgColor>

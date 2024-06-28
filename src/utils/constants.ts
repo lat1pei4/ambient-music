@@ -21,24 +21,23 @@ export const SOUND_CATEGORIES = [
   {
     id: '1',
     title: 'Rain',
-    iconUrl: '../../assets/wind.png',
+    iconUrl: 'https://d19lw2j693qzyn.cloudfront.net/rain.png',
     color: '#4a90e2',
-    soundUrl: 'https://www.soundjay.com/nature/rain-03.mp3',
+    soundUrl: 'https://d19lw2j693qzyn.cloudfront.net/rain.mp3',
   },
   {
     id: '2',
     title: 'Thunder',
-    iconUrl:
-      'https://cdn.icon-icons.com/icons2/2211/PNG/512/weather_storm_thunder_heavy_rain_cloud_icon_134151.png',
+    iconUrl: 'https://d19lw2j693qzyn.cloudfront.net/thunder.png',
     color: '#f1c40f',
-    soundUrl: 'https://www.soundjay.com/nature/rain-03.mp3',
+    soundUrl: 'https://d19lw2j693qzyn.cloudfront.net/thunder.mp3',
   },
   {
     id: '3',
     title: 'Wind',
-    iconUrl: 'https://www.soundjay.com/nature/wind-01.png',
+    iconUrl: 'https://d19lw2j693qzyn.cloudfront.net/wind.png',
     color: '#e74c3c',
-    soundUrl: 'https://www.soundjay.com/nature/rain-03.mp3',
+    soundUrl: 'https://d19lw2j693qzyn.cloudfront.net/wind.mp3',
   },
   {
     id: '4',
