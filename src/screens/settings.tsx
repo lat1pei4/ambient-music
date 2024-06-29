@@ -13,6 +13,15 @@ import {
   languages,
   languagesUI,
   languageUIToInternal,
+  seasons,
+  seasonsUI,
+  seasonUIToInternal,
+  times,
+  timesUI,
+  timeUIToInternal,
+  weathers,
+  weathersUI,
+  weatherUIToInternal,
 } from '@app/utils/types/enums';
 import {useAppearance} from '@app/utils/hooks';
 import {useStores} from '@app/stores';
@@ -22,6 +31,7 @@ import {services, useServices} from '@app/services';
 export const Settings: NavioScreen = observer(({}) => {
   useAppearance();
   const {ui} = useStores();
+  const {environment} = useStores();
   const {navio} = useServices();
   const navigation = navio.useN();
 
@@ -29,14 +39,32 @@ export const Settings: NavioScreen = observer(({}) => {
   const [appearance, setAppearance] = useState(ui.appearance);
   const [language, setLanguage] = useState(ui.language);
 
+  const [season, setSeason] = useState(environment.season);
+  const [time, setTime] = useState(environment.time);
+  const [weather, setWeather] = useState(environment.weather);
+
   // Computed
-  const unsavedChanges = ui.appearance !== appearance || ui.language !== language;
+  const unsavedChanges =
+    ui.appearance !== appearance ||
+    ui.language !== language ||
+    environment.season !== season ||
+    environment.time !== time ||
+    environment.weather !== weather;
 
   const appearanceInitialIndex = appearances.findIndex(it => it === appearance);
   const appearanceSegments = appearancesUI.map(it => ({label: it}));
 
   const languageInitialIndex = languages.findIndex(it => it === language);
   const languageSegments = languagesUI.map(it => ({label: it}));
+
+  const seasonInitialIndex = seasons.findIndex(it => it === season);
+  const seasonSegments = seasonsUI.map(it => ({label: it}));
+
+  const timeInitialIndex = times.findIndex(it => it === time);
+  const timeSegments = timesUI.map(it => ({label: it}));
+
+  const weatherInitialIndex = weathers.findIndex(it => it === weather);
+  const weatherSegments = weathersUI.map(it => ({label: it}));
 
   // Start
   useEffect(() => {
@@ -52,10 +80,21 @@ export const Settings: NavioScreen = observer(({}) => {
   const handleLanguageIndexChange = (index: number) =>
     setLanguage(languageUIToInternal[languagesUI[index]]);
 
+  const handleSeasonIndexChange = (index: number) =>
+    setSeason(seasonUIToInternal[seasonsUI[index]]);
+  const handleTimeIndexChange = (index: number) => setTime(timeUIToInternal[timesUI[index]]);
+  const handleWeatherIndexChange = (index: number) =>
+    setWeather(weatherUIToInternal[weathersUI[index]]);
+
   const handleSave = () => {
     ui.setMany({
       appearance,
       language,
+    });
+    environment.setMany({
+      season,
+      time,
+      weather,
     });
   };
 
@@ -111,11 +150,12 @@ export const Settings: NavioScreen = observer(({}) => {
               </View>
 
               <SegmentedControl
-                initialIndex={0}
-                segments={[{label: '春'}, {label: '夏'}, {label: '秋'}, {label: '冬'}]}
+                initialIndex={seasonInitialIndex}
+                segments={seasonSegments}
                 backgroundColor={Colors.bgColor}
                 activeColor={Colors.primary}
                 inactiveColor={Colors.textColor}
+                onChangeIndex={handleSeasonIndexChange}
               />
             </Row>
           </View>
@@ -129,11 +169,12 @@ export const Settings: NavioScreen = observer(({}) => {
               </View>
 
               <SegmentedControl
-                initialIndex={0}
-                segments={[{label: '日'}, {label: '夜'}]}
+                initialIndex={timeInitialIndex}
+                segments={timeSegments}
                 backgroundColor={Colors.bgColor}
                 activeColor={Colors.primary}
                 inactiveColor={Colors.textColor}
+                onChangeIndex={handleTimeIndexChange}
               />
             </Row>
           </View>
@@ -146,11 +187,12 @@ export const Settings: NavioScreen = observer(({}) => {
               </View>
 
               <SegmentedControl
-                initialIndex={0}
-                segments={[{label: '晴れ'}, {label: '曇り'}, {label: '雨'}, {label: '雪'}]}
+                initialIndex={weatherInitialIndex}
+                segments={weatherSegments}
                 backgroundColor={Colors.bgColor}
                 activeColor={Colors.primary}
                 inactiveColor={Colors.textColor}
+                onChangeIndex={handleWeatherIndexChange}
               />
             </Row>
           </View>
