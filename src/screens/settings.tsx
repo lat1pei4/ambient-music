@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
 import {Text, View, SegmentedControl, Colors} from 'react-native-ui-lib';
 import {observer} from 'mobx-react';
-import {useNavigation} from '@react-navigation/native';
 import {NavioScreen} from 'rn-navio';
 
 import {Section} from '@app/components/section';
@@ -19,7 +18,6 @@ import {useAppearance} from '@app/utils/hooks';
 import {useStores} from '@app/stores';
 import {HeaderButton} from '@app/components/button';
 import {services, useServices} from '@app/services';
-import {CircularProgressCard} from '@app/components/CircularProgressCard';
 
 export const Settings: NavioScreen = observer(({}) => {
   useAppearance();
@@ -30,7 +28,6 @@ export const Settings: NavioScreen = observer(({}) => {
   // State
   const [appearance, setAppearance] = useState(ui.appearance);
   const [language, setLanguage] = useState(ui.language);
-  const [toastVisible, setToastVisible] = useState(false);
 
   // Computed
   const unsavedChanges = ui.appearance !== appearance || ui.language !== language;
@@ -100,6 +97,60 @@ export const Settings: NavioScreen = observer(({}) => {
                 activeColor={Colors.primary}
                 inactiveColor={Colors.textColor}
                 onChangeIndex={handleLanguageIndexChange}
+              />
+            </Row>
+          </View>
+        </Section>
+        <Section title={'背景動画'}>
+          <View paddingV-s1>
+            <Row>
+              <View flex>
+                <Text textColor text60R>
+                  季節
+                </Text>
+              </View>
+
+              <SegmentedControl
+                initialIndex={0}
+                segments={[{label: '春'}, {label: '夏'}, {label: '秋'}, {label: '冬'}]}
+                backgroundColor={Colors.bgColor}
+                activeColor={Colors.primary}
+                inactiveColor={Colors.textColor}
+              />
+            </Row>
+          </View>
+
+          <View paddingV-s1>
+            <Row>
+              <View flex>
+                <Text textColor text60R>
+                  時間
+                </Text>
+              </View>
+
+              <SegmentedControl
+                initialIndex={0}
+                segments={[{label: '日'}, {label: '夜'}]}
+                backgroundColor={Colors.bgColor}
+                activeColor={Colors.primary}
+                inactiveColor={Colors.textColor}
+              />
+            </Row>
+          </View>
+          <View paddingV-s1>
+            <Row>
+              <View flex>
+                <Text textColor text60R>
+                  天気
+                </Text>
+              </View>
+
+              <SegmentedControl
+                initialIndex={0}
+                segments={[{label: '晴れ'}, {label: '曇り'}, {label: '雨'}, {label: '雪'}]}
+                backgroundColor={Colors.bgColor}
+                activeColor={Colors.primary}
+                inactiveColor={Colors.textColor}
               />
             </Row>
           </View>

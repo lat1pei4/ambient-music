@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {ScrollView, StyleSheet, Pressable} from 'react-native';
-import {Text, View, Button, Incubator} from 'react-native-ui-lib';
+import {Text, View, Button, Incubator, Card} from 'react-native-ui-lib';
 import {observer} from 'mobx-react';
 import {NavioScreen} from 'rn-navio';
 import {useStores} from '@app/stores';
@@ -8,6 +8,7 @@ import {services, useServices} from '@app/services';
 import {useAppearance} from '@app/utils/hooks';
 import {SOUND_CATEGORIES} from '@app/utils/constants';
 import {CircularProgressCard} from '@app/components/CircularProgressCard';
+import {CommonActions} from '@react-navigation/native';
 
 const {Toast, Slider} = Incubator;
 
@@ -117,7 +118,7 @@ export const ManageSoundsScreen: NavioScreen = observer(() => {
     }, []).map((row, rowIndex) => (
       <View key={rowIndex} style={styles.row}>
         {row.map((category, cardIndex) => (
-          <Pressable
+          <Card
             key={cardIndex}
             style={styles.cardContainer}
             onPress={() => handleCardPress(category.title)}
@@ -130,7 +131,7 @@ export const ManageSoundsScreen: NavioScreen = observer(() => {
               soundUrl={category.soundUrl}
               isPlaying={soundStates[category.title]?.isPlaying || false}
             />
-          </Pressable>
+          </Card>
         ))}
       </View>
     ));
@@ -141,6 +142,11 @@ export const ManageSoundsScreen: NavioScreen = observer(() => {
       <ScrollView contentInsetAdjustmentBehavior="always" style={styles.scrollView}>
         <View style={styles.container}>{renderCards()}</View>
       </ScrollView>
+      <Button
+        label="back to home"
+        onPress={() => navio.drawers.jumpTo('AnimeBackground')}
+        margin-20
+      />
       <Toast
         visible={toastVisible}
         position={'bottom'}
@@ -191,6 +197,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: '48%',
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   sliderContainer: {
     marginVertical: 10,
