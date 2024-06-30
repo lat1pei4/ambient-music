@@ -1,9 +1,9 @@
 {
-  "name": "expo-starter",
-  "version": "6.4.0",
-  "description": "Production-ready starter for Expo (React Native) App! Powered by cli-rn, React Navigation (v6), RN UI lib, Mobx, Reanimated 2, Dark Mode, Localization, and much more.",
-  "author": "Batyr <dev@batyr.io> (https://github.com/kanzitelli)",
-  "homepage": "https://github.com/kanzitelli/expo-starter",
+  "name": "ambient-music-app",
+  "version": "0.1.0",
+  "description": "20+ different ambient sounds available for customizing, along with 20+ adorable and soothing standby screens that match seasons, day/night cycles, and weather conditions",
+  "author": "2AW1 Group D",
+  "homepage": "https://github.com/lat1pei4/ambient-music.git",
   "scripts": {
     "start": "npx expo start",
     "start:dc": "npx expo start --dev-client",

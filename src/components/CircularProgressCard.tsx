@@ -121,10 +121,10 @@ export const CircularProgressCard: React.FC<Props> = observer(
           <View style={styles.iconContainer}>
             <Icon
               source={{
-                uri:
-                  isPlaying && initialFill > 0
-                    ? 'https://cdn-icons-png.flaticon.com/512/7960/7960808.png' // pause icon
-                    : iconUrl, // play icon
+                uri: iconUrl,
+                // isPlaying && initialFill > 0
+                //   ? 'https://cdn-icons-png.flaticon.com/512/7960/7960808.png' // pause icon
+                //   : iconUrl, // play icon
               }}
               size={50}
             />
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 50,
     height: 50,
-    top: '50%',
+    top: '45%',
     left: '50%',
     marginTop: -25,
     marginLeft: -25,
