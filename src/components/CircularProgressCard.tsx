@@ -132,8 +132,10 @@ export const CircularProgressCard: React.FC<Props> = ({
             size={50}
           />
         </View>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{title}</Text>
+        </View>
       </Card>
-      <Text style={styles.title}>{title}</Text>
     </View>
   );
 };
@@ -151,8 +153,12 @@ const styles = StyleSheet.create({
     marginTop: -25,
     marginLeft: -25,
   },
+  titleContainer: {
+    position: 'absolute',
+    bottom: 13,
+    width: '100%',
+  },
   title: {
-    marginTop: 10,
     textAlign: 'center',
   },
 });

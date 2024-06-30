@@ -197,7 +197,8 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: '48%',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    borderRadius: 300,
+    backgroundColor: 'transparent',
   },
   sliderContainer: {
     marginVertical: 10,

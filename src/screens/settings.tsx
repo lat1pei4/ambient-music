@@ -140,62 +140,64 @@ export const Settings: NavioScreen = observer(({}) => {
             </Row>
           </View>
         </Section>
-        <Section title={'背景動画'}>
-          <View paddingV-s1>
-            <Row>
-              <View flex>
-                <Text textColor text60R>
-                  季節
-                </Text>
-              </View>
+        <Section title={'Debug Mode'}>
+          <Section title={'背景動画'}>
+            <View paddingV-s1>
+              <Row>
+                <View flex>
+                  <Text textColor text60R>
+                    季節
+                  </Text>
+                </View>
 
-              <SegmentedControl
-                initialIndex={seasonInitialIndex}
-                segments={seasonSegments}
-                backgroundColor={Colors.bgColor}
-                activeColor={Colors.primary}
-                inactiveColor={Colors.textColor}
-                onChangeIndex={handleSeasonIndexChange}
-              />
-            </Row>
-          </View>
+                <SegmentedControl
+                  initialIndex={seasonInitialIndex}
+                  segments={seasonSegments}
+                  backgroundColor={Colors.bgColor}
+                  activeColor={Colors.primary}
+                  inactiveColor={Colors.textColor}
+                  onChangeIndex={handleSeasonIndexChange}
+                />
+              </Row>
+            </View>
 
-          <View paddingV-s1>
-            <Row>
-              <View flex>
-                <Text textColor text60R>
-                  時間
-                </Text>
-              </View>
+            <View paddingV-s1>
+              <Row>
+                <View flex>
+                  <Text textColor text60R>
+                    時間
+                  </Text>
+                </View>
 
-              <SegmentedControl
-                initialIndex={timeInitialIndex}
-                segments={timeSegments}
-                backgroundColor={Colors.bgColor}
-                activeColor={Colors.primary}
-                inactiveColor={Colors.textColor}
-                onChangeIndex={handleTimeIndexChange}
-              />
-            </Row>
-          </View>
-          <View paddingV-s1>
-            <Row>
-              <View flex>
-                <Text textColor text60R>
-                  天気
-                </Text>
-              </View>
+                <SegmentedControl
+                  initialIndex={timeInitialIndex}
+                  segments={timeSegments}
+                  backgroundColor={Colors.bgColor}
+                  activeColor={Colors.primary}
+                  inactiveColor={Colors.textColor}
+                  onChangeIndex={handleTimeIndexChange}
+                />
+              </Row>
+            </View>
+            <View paddingV-s1>
+              <Row>
+                <View flex>
+                  <Text textColor text60R>
+                    天気
+                  </Text>
+                </View>
 
-              <SegmentedControl
-                initialIndex={weatherInitialIndex}
-                segments={weatherSegments}
-                backgroundColor={Colors.bgColor}
-                activeColor={Colors.primary}
-                inactiveColor={Colors.textColor}
-                onChangeIndex={handleWeatherIndexChange}
-              />
-            </Row>
-          </View>
+                <SegmentedControl
+                  initialIndex={weatherInitialIndex}
+                  segments={weatherSegments}
+                  backgroundColor={Colors.bgColor}
+                  activeColor={Colors.primary}
+                  inactiveColor={Colors.textColor}
+                  onChangeIndex={handleWeatherIndexChange}
+                />
+              </Row>
+            </View>
+          </Section>
         </Section>
       </ScrollView>
     </View>
