@@ -3,13 +3,15 @@ import './_hydration';
 import {UIStore} from './ui';
 import {CounterStore} from './counter';
 import {AuthStore} from './auth';
-import {EnvironmentStore} from './environment'; // Import the new EnvironmentStore
+import {EnvironmentStore} from './environment';
+import {SoundStore} from './sound';
 
 class Stores {
   ui = new UIStore();
   counter = new CounterStore();
   auth = new AuthStore();
-  environment = new EnvironmentStore(); // Add the EnvironmentStore instance
+  environment = new EnvironmentStore();
+  sound = new SoundStore();
 }
 
 export const stores = new Stores();

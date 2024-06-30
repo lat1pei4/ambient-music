@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {ScrollView, StyleSheet, Pressable} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import {Text, View, Button, Incubator, Card} from 'react-native-ui-lib';
 import {observer} from 'mobx-react';
 import {NavioScreen} from 'rn-navio';
@@ -8,102 +8,52 @@ import {services, useServices} from '@app/services';
 import {useAppearance} from '@app/utils/hooks';
 import {SOUND_CATEGORIES} from '@app/utils/constants';
 import {CircularProgressCard} from '@app/components/CircularProgressCard';
-import {CommonActions} from '@react-navigation/native';
 
 const {Toast, Slider} = Incubator;
-
-type SoundState = {
-  isPlaying: boolean;
-  volume: number;
-};
-
-type SoundStates = {
-  [key: string]: SoundState;
-};
 
 export const ManageSoundsScreen: NavioScreen = observer(() => {
   useAppearance();
   const {navio} = useServices();
   const navigation = navio.useN();
-  const {ui} = useStores();
+  const {sound} = useStores();
 
   const [toastVisible, setToastVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [soundStates, setSoundStates] = useState<SoundStates>({});
-  const [volume, setVolume] = useState(0);
 
   useEffect(() => {
     configureUI();
-    initializeSoundStates();
   }, []);
-
-  useEffect(() => {
-    if (selectedCategory && soundStates[selectedCategory]) {
-      setVolume(soundStates[selectedCategory].volume);
-    }
-  }, [selectedCategory, soundStates]);
-
-  const initializeSoundStates = () => {
-    const initialStates = SOUND_CATEGORIES.reduce((acc, category) => {
-      acc[category.title] = {isPlaying: false, volume: 0};
-      return acc;
-    }, {} as SoundStates);
-    setSoundStates(initialStates);
-  };
 
   const toggleToast = useCallback(() => {
     setToastVisible(prev => !prev);
   }, []);
 
-  // const handleCardPress = useCallback((category: string) => {
-  //   setSelectedCategory(category);
-  //   setSoundStates(prevStates => {
-  //     const currentState = prevStates[category];
-  //     const newVolume = currentState.isPlaying ? currentState.volume : 30;
-  //     const newIsPlaying = !currentState.isPlaying;
-  //     return {
-  //       ...prevStates,
-  //       [category]: {
-  //         isPlaying: newIsPlaying,
-  //         volume: newIsPlaying ? Math.max(newVolume, 1) : 0,
-  //       },
-  //     };
-  //   });
-  //   setToastVisible(true);
-  // }, []);
+  const handleCardPress = useCallback(
+    (category: string) => {
+      setSelectedCategory(category);
+      sound.toggleSound(category);
+      setToastVisible(true);
+    },
+    [sound],
+  );
 
   const resetVolume = useCallback(() => {
     if (selectedCategory) {
-      setSoundStates(prevStates => ({
-        ...prevStates,
-        [selectedCategory]: {
-          isPlaying: false,
-          volume: 0,
-        },
-      }));
-      setVolume(0);
+      sound.resetSound(selectedCategory);
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, sound]);
 
-  const handleCardPress = useCallback((category: string) => {
-    setSelectedCategory(category);
-    setToastVisible(true);
-  }, []);
+  const resetAllVolume = useCallback(() => {
+    sound.resetAllSounds();
+  }, [selectedCategory, sound]);
 
   const onVolumeChange = useCallback(
     (newVolume: number) => {
-      setVolume(newVolume);
       if (selectedCategory) {
-        setSoundStates(prevStates => ({
-          ...prevStates,
-          [selectedCategory]: {
-            isPlaying: newVolume > 0,
-            volume: newVolume,
-          },
-        }));
+        sound.setVolume(selectedCategory, newVolume);
       }
     },
-    [selectedCategory],
+    [selectedCategory, sound],
   );
 
   const configureUI = () => {
@@ -117,19 +67,19 @@ export const ManageSoundsScreen: NavioScreen = observer(() => {
       return rows;
     }, []).map((row, rowIndex) => (
       <View key={rowIndex} style={styles.row}>
-        {row.map((category, cardIndex) => (
+        {row.map(category => (
           <Card
-            key={cardIndex}
+            key={category.id}
             style={styles.cardContainer}
-            onPress={() => handleCardPress(category.title)}
+            onPress={() => handleCardPress(category.id)}
           >
             <CircularProgressCard
-              initialFill={soundStates[category.title]?.volume || 0}
+              initialFill={sound.sounds[category.id]?.volume || 0}
               size={120}
               title={category.title}
               iconUrl={category.iconUrl}
               soundUrl={category.soundUrl}
-              isPlaying={soundStates[category.title]?.isPlaying || false}
+              isPlaying={sound.sounds[category.id]?.isPlaying || false}
             />
           </Card>
         ))}
@@ -142,15 +92,22 @@ export const ManageSoundsScreen: NavioScreen = observer(() => {
       <ScrollView contentInsetAdjustmentBehavior="always" style={styles.scrollView}>
         <View style={styles.container}>{renderCards()}</View>
       </ScrollView>
-      <Button
-        label="back to home"
-        onPress={() => navio.drawers.jumpTo('AnimeBackground')}
-        margin-20
-      />
+      <View style={styles.buttonContainer2}>
+        <Button label="reset all sounds" onPress={resetAllVolume} margin-20 />
+        <Button
+          label="back to home"
+          onPress={() => navio.drawers.jumpTo('AnimeBackground')}
+          margin-20
+        />
+      </View>
       <Toast
         visible={toastVisible}
         position={'bottom'}
-        message={selectedCategory ? `Adjust volume for ${selectedCategory}` : ''}
+        message={
+          selectedCategory
+            ? `Adjust volume for ${SOUND_CATEGORIES.find(c => c.id === selectedCategory)?.title}`
+            : ''
+        }
         onDismiss={toggleToast}
         autoDismiss={0}
         showLoader={false}
@@ -158,10 +115,10 @@ export const ManageSoundsScreen: NavioScreen = observer(() => {
       >
         <View bg-$backgroundNeutralLight padding-40>
           <Text $textDefault text60>
-            Volume: {volume.toFixed(0)}%
+            Volume: {selectedCategory ? sound.sounds[selectedCategory]?.volume.toFixed(0) : 0}%
           </Text>
           <Slider
-            value={volume}
+            value={selectedCategory ? sound.sounds[selectedCategory]?.volume || 0 : 0}
             minimumValue={0}
             maximumValue={100}
             onValueChange={onVolumeChange}
@@ -208,5 +165,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 10,
+  },
+  buttonContainer2: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 0,
+    margin: 0,
   },
 });

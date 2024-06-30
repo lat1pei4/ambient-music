@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView} from 'react-native';
-import {Text, View, SegmentedControl, Colors} from 'react-native-ui-lib';
+import {ScrollView, TextInput, TouchableOpacity} from 'react-native';
+import {Text, View, SegmentedControl, Colors, Modal} from 'react-native-ui-lib';
 import {observer} from 'mobx-react';
 import {NavioScreen} from 'rn-navio';
 
@@ -42,6 +42,10 @@ export const Settings: NavioScreen = observer(({}) => {
   const [season, setSeason] = useState(environment.season);
   const [time, setTime] = useState(environment.time);
   const [weather, setWeather] = useState(environment.weather);
+
+  const [showDebugMode, setShowDebugMode] = useState(false);
+  const [passwordModalVisible, setPasswordModalVisible] = useState(false);
+  const [password, setPassword] = useState('');
 
   // Computed
   const unsavedChanges =
@@ -98,6 +102,22 @@ export const Settings: NavioScreen = observer(({}) => {
     });
   };
 
+  const handleDebugModePress = () => {
+    setPasswordModalVisible(!passwordModalVisible);
+  };
+
+  const handlePasswordSubmit = () => {
+    if (password === '0000') {
+      setShowDebugMode(true);
+      setPasswordModalVisible(false);
+    } else {
+      // Show error message
+      alert('Incorrect password');
+      handleDebugModePress();
+    }
+    setPassword('');
+  };
+
   return (
     <View flex bg-bgColor>
       <ScrollView contentInsetAdjustmentBehavior="always">
@@ -140,66 +160,101 @@ export const Settings: NavioScreen = observer(({}) => {
             </Row>
           </View>
         </Section>
-        <Section title={'Debug Mode'}>
-          <Section title={'背景動画'}>
-            <View paddingV-s1>
-              <Row>
-                <View flex>
-                  <Text textColor text60R>
-                    季節
-                  </Text>
-                </View>
 
-                <SegmentedControl
-                  initialIndex={seasonInitialIndex}
-                  segments={seasonSegments}
-                  backgroundColor={Colors.bgColor}
-                  activeColor={Colors.primary}
-                  inactiveColor={Colors.textColor}
-                  onChangeIndex={handleSeasonIndexChange}
-                />
-              </Row>
-            </View>
+        <TouchableOpacity onPress={handleDebugModePress}>
+          <Text textColor text60R padding-s1>
+            Debug Mode
+          </Text>
+        </TouchableOpacity>
 
-            <View paddingV-s1>
-              <Row>
-                <View flex>
-                  <Text textColor text60R>
-                    時間
-                  </Text>
-                </View>
+        {showDebugMode && (
+          <Section title={'Debug Mode'}>
+            <Section title={'背景動画'}>
+              <View paddingV-s1>
+                <Row>
+                  <View flex>
+                    <Text textColor text60R>
+                      季節
+                    </Text>
+                  </View>
 
-                <SegmentedControl
-                  initialIndex={timeInitialIndex}
-                  segments={timeSegments}
-                  backgroundColor={Colors.bgColor}
-                  activeColor={Colors.primary}
-                  inactiveColor={Colors.textColor}
-                  onChangeIndex={handleTimeIndexChange}
-                />
-              </Row>
-            </View>
-            <View paddingV-s1>
-              <Row>
-                <View flex>
-                  <Text textColor text60R>
-                    天気
-                  </Text>
-                </View>
+                  <SegmentedControl
+                    initialIndex={seasonInitialIndex}
+                    segments={seasonSegments}
+                    backgroundColor={Colors.bgColor}
+                    activeColor={Colors.primary}
+                    inactiveColor={Colors.textColor}
+                    onChangeIndex={handleSeasonIndexChange}
+                  />
+                </Row>
+              </View>
 
-                <SegmentedControl
-                  initialIndex={weatherInitialIndex}
-                  segments={weatherSegments}
-                  backgroundColor={Colors.bgColor}
-                  activeColor={Colors.primary}
-                  inactiveColor={Colors.textColor}
-                  onChangeIndex={handleWeatherIndexChange}
-                />
-              </Row>
-            </View>
+              <View paddingV-s1>
+                <Row>
+                  <View flex>
+                    <Text textColor text60R>
+                      時間
+                    </Text>
+                  </View>
+
+                  <SegmentedControl
+                    initialIndex={timeInitialIndex}
+                    segments={timeSegments}
+                    backgroundColor={Colors.bgColor}
+                    activeColor={Colors.primary}
+                    inactiveColor={Colors.textColor}
+                    onChangeIndex={handleTimeIndexChange}
+                  />
+                </Row>
+              </View>
+              <View paddingV-s1>
+                <Row>
+                  <View flex>
+                    <Text textColor text60R>
+                      天気
+                    </Text>
+                  </View>
+
+                  <SegmentedControl
+                    initialIndex={weatherInitialIndex}
+                    segments={weatherSegments}
+                    backgroundColor={Colors.bgColor}
+                    activeColor={Colors.primary}
+                    inactiveColor={Colors.textColor}
+                    onChangeIndex={handleWeatherIndexChange}
+                  />
+                </Row>
+              </View>
+            </Section>
           </Section>
-        </Section>
+        )}
       </ScrollView>
+
+      <Modal visible={passwordModalVisible} onRequestClose={() => setPasswordModalVisible(false)}>
+        <View flex center>
+          <Text textColor text60R marginB-s2>
+            Enter Debug Mode Password
+          </Text>
+          <TextInput
+            secureTextEntry
+            keyboardType="numeric"
+            maxLength={4}
+            value={password}
+            onChangeText={setPassword}
+            style={{borderWidth: 1, borderColor: Colors.textColor, padding: 10, marginBottom: 20}}
+          />
+          <TouchableOpacity onPress={handleDebugModePress}>
+            <Text textColor text60R>
+              cancel
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handlePasswordSubmit}>
+            <Text textColor text60R>
+              Submit
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 });

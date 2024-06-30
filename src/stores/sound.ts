@@ -33,8 +33,9 @@ export class SoundStore implements IStore {
   toggleSound(id: string) {
     const sound = this.sounds[id];
     if (sound) {
-      const newVolume = sound.isPlaying ? 0 : Math.max(sound.volume, 30);
-      this.setSound(id, !sound.isPlaying, newVolume);
+      if (!sound.isPlaying) {
+        this.setSound(id, true, 10);
+      }
     }
   }
 
@@ -47,6 +48,12 @@ export class SoundStore implements IStore {
 
   resetSound(id: string) {
     this.setSound(id, false, 0);
+  }
+
+  resetAllSounds() {
+    Object.keys(this.sounds).forEach(id => {
+      this.setSound(id, false, 0);
+    });
   }
 
   hydrate = async (): Promise<void> => {
