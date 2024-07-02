@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, TextInput, TouchableOpacity} from 'react-native';
-import {Text, View, SegmentedControl, Colors, Modal} from 'react-native-ui-lib';
+import {ScrollView, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
+import {Text, View, SegmentedControl, Colors, Modal, Button} from 'react-native-ui-lib';
 import {observer} from 'mobx-react';
 import {NavioScreen} from 'rn-navio';
 
@@ -168,7 +168,7 @@ export const Settings: NavioScreen = observer(({}) => {
         </TouchableOpacity>
 
         {showDebugMode && (
-          <Section title={'Debug Mode'}>
+          <>
             <Section title={'背景動画'}>
               <View paddingV-s1>
                 <Row>
@@ -226,7 +226,22 @@ export const Settings: NavioScreen = observer(({}) => {
                 </Row>
               </View>
             </Section>
-          </Section>
+            <Section title={'位置情報'}>
+              <Text textColor text60R>
+                日時: xxxx
+              </Text>
+              <Text textColor text60R>
+                現在地: xxxx
+              </Text>
+              <Text textColor text60R>
+                緯度: xxxx
+              </Text>
+              <Text textColor text60R>
+                経度: xxx
+              </Text>
+              <Button label="更新" onPress={() => {}} style={styles.button} />
+            </Section>
+          </>
         )}
       </ScrollView>
 
@@ -261,4 +276,12 @@ export const Settings: NavioScreen = observer(({}) => {
 
 Settings.options = () => ({
   title: services.t.do('settings.title'),
+});
+
+const styles = StyleSheet.create({
+  button: {
+    width: 80,
+    height: 40,
+    marginTop: 20,
+  },
 });

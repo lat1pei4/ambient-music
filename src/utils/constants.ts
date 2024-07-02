@@ -1,21 +1,16 @@
-import {Dimensions} from 'react-native';
-import {Assets, Image} from 'react-native-ui-lib';
+// import {Dimensions} from 'react-native';
 
-Assets.loadAssetsGroup('icons', {
-  wind: '../../assets/wind.png',
-});
+// export const useConstants = () => {
+//   const dim = Dimensions.get('screen');
 
-export const useConstants = () => {
-  const dim = Dimensions.get('screen');
-
-  return {
-    dim,
-    links: {
-      github: 'https://github.com/kanzitelli/expo-starter',
-      website: 'https://github.com/kanzitelli/expo-starter',
-    },
-  };
-};
+//   return {
+//     dim,
+//     links: {
+//       github: 'https://github.com/kanzitelli/expo-starter',
+//       website: 'https://github.com/kanzitelli/expo-starter',
+//     },
+//   };
+// };
 
 export const SOUND_CATEGORIES = [
   {

@@ -47,6 +47,18 @@ export const ManageSoundsScreen: NavioScreen = observer(() => {
     sound.resetAllSounds();
   }, [selectedCategory, sound]);
 
+  const pauseAllSounds = useCallback(() => {
+    sound.pauseAllSounds();
+  }, [sound]);
+
+  const randomSound = useCallback(() => {
+    sound.randomSound();
+  }, [sound]);
+
+  const toggleDynamicMode = () => {
+    sound.toggleDynamicMode();
+  };
+
   const onVolumeChange = useCallback(
     (newVolume: number) => {
       if (selectedCategory) {
@@ -93,6 +105,9 @@ export const ManageSoundsScreen: NavioScreen = observer(() => {
         <View style={styles.container}>{renderCards()}</View>
       </ScrollView>
       <View style={styles.buttonContainer2}>
+        <Button label="Random" onPress={randomSound} margin-20 />
+        <Button label="Pause/resume" onPress={pauseAllSounds} margin-20 />
+        <Button label="Dynamic" onPress={toggleDynamicMode} margin-20 />
         <Button label="reset all sounds" onPress={resetAllVolume} margin-20 />
         <Button
           label="back to home"
@@ -168,6 +183,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer2: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     padding: 0,
     margin: 0,
